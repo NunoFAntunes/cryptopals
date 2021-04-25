@@ -1,10 +1,16 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 
-void hex2binary(unsigned const char hex[]){
+const char* hex2binary(unsigned const char hex[]){
 	int length = strlen(hex);
-	char binAddress[length*4+1];//+1 for NUL
+	//char binAddress[length*4+1];//+1 for NUL
+	char *binAddress = malloc((length*4+1)*sizeof(char));
+	if (binAddress == NULL) {
+  		fprintf(stderr, "malloc failed\n");
+  		return NULL;
+	}
 	int i, j;
 	for (j = i = 0; i < strlen(hex); i++, j += 4){
         switch(hex[i]){
@@ -29,7 +35,7 @@ void hex2binary(unsigned const char hex[]){
 	            strcpy(binAddress + j, "0000"); break;
         }
 	}
-	printf("%s\n", binAddress);
+	return (char *)binAddress;
 }
 
 long hex2b64(unsigned const char *hex){
@@ -41,8 +47,8 @@ long hex2b64(unsigned const char *hex){
 }
 
 int main(void){
-	hex2binary("49276d206b696c6c696e6720796f757220627261696e206c696b65206120706f69736f6e6f7573206d757368726f6f6d");
+	const char* addr = hex2binary("49276d206b696c6c696e6720796f757220627261696e206c696b65206120706f69736f6e6f7573206d757368726f6f6d");
 
-    //printf("%s\n", binAddress);
+    printf("%s\n", addr);
     return 0;
 }
