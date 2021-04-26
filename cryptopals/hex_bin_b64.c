@@ -5,7 +5,6 @@
 
 const char* hex2binary(unsigned const char hex[]){
 	int length = strlen(hex);
-	//char binAddress[length*4+1];//+1 for NUL
 	char *binAddress = malloc((length*4+1)*sizeof(char));
 	if (binAddress == NULL) {
   		fprintf(stderr, "malloc failed\n");
@@ -38,12 +37,19 @@ const char* hex2binary(unsigned const char hex[]){
 	return (char *)binAddress;
 }
 
-long hex2b64(unsigned const char *hex){
-	long ret = 0
-	while (*hex) {
-      ret = (ret << 4) | hextable[*hex++];
-   }
-   return ret; 
+long binary2b64(unsigned const char *bin){
+	int length = strlen(bin);
+	if(length%24 != 0){
+		fprintf(stderr, "Binary string has the wrong size\n");
+  		return NULL;
+	}
+	char *hexAddress = malloc((length/24*4+1)*sizeof(char));
+	if (hexAddress == NULL) {
+  		fprintf(stderr, "malloc failed\n");
+  		return NULL;
+	}
+	int i, j;
+	for (j = i = 0; i < strlen(bin); i+=3, j+=4){
 }
 
 int main(void){
